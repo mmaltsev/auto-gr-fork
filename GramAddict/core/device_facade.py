@@ -253,7 +253,7 @@ class DeviceFacade:
         sleep(2)
         logger.debug(f"Screen locked: {self.is_screen_locked()}")
         if self.is_screen_locked():
-            self.swipe(Direction.RIGHT, 0.8)
+            self.swipe(Direction.RIGHT, 1)
             sleep(2)
             logger.debug(f"Screen locked: {self.is_screen_locked()}")
 
