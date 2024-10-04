@@ -192,7 +192,7 @@ def start_bot(**kwargs):
             #         save_crash(device)
             #         device.back()
             #         break
-            account_view.refresh_account()
+            # account_view.refresh_account()
             (
                 session_state.my_username,
                 session_state.my_posts_count,
