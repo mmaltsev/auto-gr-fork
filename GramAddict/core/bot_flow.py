@@ -182,15 +182,16 @@ def start_bot(**kwargs):
         try:
             account_view.navigate_to_main_account()
             check_if_english(device)
-            if configs.args.username is not None:
-                success = account_view.changeToUsername(configs.args.username)
-                if not success:
-                    logger.error(
-                        f"Not able to change to {configs.args.username}, abort!"
-                    )
-                    save_crash(device)
-                    device.back()
-                    break
+            # Commented out the part where bot checks if the profile is correct, since there is only one profile.
+            # if configs.args.username is not None:
+            #     success = account_view.changeToUsername(configs.args.username)
+            #     if not success:
+            #         logger.error(
+            #             f"Not able to change to {configs.args.username}, abort!"
+            #         )
+            #         save_crash(device)
+            #         device.back()
+            #         break
             account_view.refresh_account()
             (
                 session_state.my_username,
