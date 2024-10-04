@@ -249,11 +249,11 @@ class DeviceFacade:
                 attempts += 1
 
     def unlock(self):
-        self.swipe(Direction.UP, 0.8)
+        self.swipe(Direction.UP, 1.1)
         sleep(2)
         logger.debug(f"Screen locked: {self.is_screen_locked()}")
         if self.is_screen_locked():
-            self.swipe(Direction.RIGHT, 1)
+            self.swipe(Direction.RIGHT, 0.8)
             sleep(2)
             logger.debug(f"Screen locked: {self.is_screen_locked()}")
 
