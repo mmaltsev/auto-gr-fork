@@ -92,7 +92,8 @@ def daily_summary(sessions):
         ]:
             daily_aggregated_data[date][key] += session.get(key, 0)
 
-        daily_aggregated_data[date]["total_scraped"].extend(x for x in session.get(key, 0) if x not in daily_aggregated_data[date]["total_scraped"])
+        account_list = list(session.get(key, 0))
+        daily_aggregated_data[date]["total_scraped"].extend(x for x in account_list if x not in daily_aggregated_data[date]["total_scraped"])
 
         daily_aggregated_data[date]["followers"] = min(
             session.get("profile", {}).get("followers", 0),
