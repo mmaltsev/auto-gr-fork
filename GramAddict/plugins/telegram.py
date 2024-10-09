@@ -23,7 +23,7 @@ def load_sessions(username) -> Optional[dict]:
 
 def load_telegram_config(username) -> Optional[dict]:
     try:
-        with open(f"accounts/{username}/telegram.yml", "r", encoding="utf-8") as stream:
+        with open(f"../accounts/{username}/telegram.yml", "r", encoding="utf-8") as stream:
             return yaml.safe_load(stream)
     except FileNotFoundError as e:
         logger.error(f"Configuration file not found: {e}")
