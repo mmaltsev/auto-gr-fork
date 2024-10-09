@@ -54,6 +54,7 @@ def _initialize_aggregated_data():
         "followers": float("inf"),
         "following": float("inf"),
         "followers_gained": 0,
+        "total_scraped": [],
     }
 
 
@@ -88,6 +89,7 @@ def daily_summary(sessions):
             "total_unfollowed",
             "total_comments",
             "total_pm",
+            "total_scraped",
         ]:
             daily_aggregated_data[date][key] += session.get(key, 0)
 
@@ -132,20 +134,13 @@ def generate_report(
             *🤖 Last session actions*
             • {last_session["duration"]} minutes of botting
             • {last_session["total_likes"]} likes
-            • {last_session["total_followed"]} follows
-            • {last_session["total_unfollowed"]} unfollows
             • {last_session["total_watched"]} stories watched
-            • {last_session["total_comments"]} comments done
-            • {last_session["total_pm"]} PM sent
 
             *📅 Today's total actions*
             • {daily_aggregated_data["duration"]} minutes of botting
+            • {daily_aggregated_data["total_scraped"]} accounts scraped
             • {daily_aggregated_data["total_likes"]} likes
-            • {daily_aggregated_data["total_followed"]} follows
-            • {daily_aggregated_data["total_unfollowed"]} unfollows
             • {daily_aggregated_data["total_watched"]} stories watched
-            • {daily_aggregated_data["total_comments"]} comments done
-            • {daily_aggregated_data["total_pm"]} PM sent
 
             *📈 Trends*
             • {daily_aggregated_data["followers_gained"]} new followers today
@@ -154,11 +149,7 @@ def generate_report(
             *🗓 7-Day Average*
             • {weekly_average_data["duration"] / 7:.0f} minutes of botting
             • {weekly_average_data["total_likes"] / 7:.0f} likes
-            • {weekly_average_data["total_followed"] / 7:.0f} follows
-            • {weekly_average_data["total_unfollowed"] / 7:.0f} unfollows
             • {weekly_average_data["total_watched"] / 7:.0f} stories watched
-            • {weekly_average_data["total_comments"] / 7:.0f} comments done
-            • {weekly_average_data["total_pm"] / 7:.0f} PM sent
         """
 
 
