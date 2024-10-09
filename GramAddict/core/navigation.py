@@ -112,8 +112,10 @@ def nav_to_post_likers(device, username, my_username):
         return False
     logger.info(f"Opening the first post on the second row of {username}.")
     ProfileView(device).swipe_to_fit_posts()
-    # Opening the 1st post on the 2nd row to avoid pinned ones.
-    PostsGridView(device).navigateToPost(1, 0)
+    from random import randrange
+    # Opening the one of the three posts on the 2nd row to avoid pinned ones.
+    post_ind = randrange(3)
+    PostsGridView(device).navigateToPost(1, post_ind)
     return True
 
 
