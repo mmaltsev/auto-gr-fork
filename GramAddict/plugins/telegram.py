@@ -89,9 +89,10 @@ def daily_summary(sessions):
             "total_unfollowed",
             "total_comments",
             "total_pm",
-            "total_scraped",
         ]:
             daily_aggregated_data[date][key] += session.get(key, 0)
+
+        daily_aggregated_data[date]["total_scraped"].extend(x for x in resulting_list if x not in daily_aggregated_data[date]["total_scraped"])
 
         daily_aggregated_data[date]["followers"] = min(
             session.get("profile", {}).get("followers", 0),
@@ -126,10 +127,6 @@ def generate_report(
 ):
     return f"""
             *Stats for {username}*:
-
-            *✨Overview after last activity*
-            • {followers_now} followers ({followers_now - last_session.get("profile", {}).get("followers", 0):+})
-            • {following_now} following ({following_now - last_session.get("profile", {}).get("following", 0):+})
 
             *🤖 Last session actions*
             • {last_session["duration"]} minutes of botting
