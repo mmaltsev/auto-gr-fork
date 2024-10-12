@@ -216,8 +216,8 @@ class TelegramReports(Plugin):
         today_data = daily_aggregated_data.get(last_session["start_time"][:10], {})
         today = datetime.now()
         last_session_start = working_hours[-1].split('-')[0]
-        last_session_start_hour = int(last_session_start.split('-')[0])
-        last_session_start_minute = int(last_session_start.split('-')[1])
+        last_session_start_hour = int(last_session_start.split('.')[0])
+        last_session_start_minute = int(last_session_start.split('.')[1])
         last_session_start_datetime = today.replace(hour=last_session_start_hour, minute=last_session_start_minute, second=0, microsecond=0)
         is_last_session_of_today = today > last_session_start_datetime
         weekly_average_data = weekly_average(daily_aggregated_data, today)
