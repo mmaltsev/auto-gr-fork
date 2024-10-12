@@ -125,10 +125,16 @@ def generate_report(
     weekly_average_data,
     followers_now,
     following_now,
+    is_last_session_of_today,
 ):
+    if (not is_last_session_of_today):
+        return f"""
+            *🤖 Last session actions*
+            • {last_session["duration"]} minutes of botting
+            • {last_session["total_likes"]} likes
+            • {last_session["total_watched"]} stories watched
+        """
     return f"""
-            *Stats for {username}*:
-
             *🤖 Last session actions*
             • {last_session["duration"]} minutes of botting
             • {last_session["total_likes"]} likes
@@ -136,13 +142,9 @@ def generate_report(
 
             *📅 Today's total actions*
             • {daily_aggregated_data["duration"]} minutes of botting
-            • {daily_aggregated_data["total_scraped"]} accounts scraped
+            • accounts scraped: {daily_aggregated_data["total_scraped"]}
             • {daily_aggregated_data["total_likes"]} likes
             • {daily_aggregated_data["total_watched"]} stories watched
-
-            *📈 Trends*
-            • {daily_aggregated_data["followers_gained"]} new followers today
-            • {weekly_average_data["followers_gained"]} new followers this week
 
             *🗓 7-Day Average*
             • {weekly_average_data["duration"] / 7:.0f} minutes of botting
@@ -188,6 +190,7 @@ class TelegramReports(Plugin):
 
     def run(self, config, plugin, followers_now, following_now, time_left):
         username = config.args.username
+        working_hours = config.args.working_hours
         if username is None:
             logger.error("You have to specify a username for getting reports!")
             return
@@ -212,6 +215,11 @@ class TelegramReports(Plugin):
         daily_aggregated_data = daily_summary(sessions)
         today_data = daily_aggregated_data.get(last_session["start_time"][:10], {})
         today = datetime.now()
+        last_session_start = working_hours[-1].split('-')[0]
+        last_session_start_hour = int(last_session_start.split('-')[0])
+        last_session_start_minute = int(last_session_start.split('-')[1])
+        last_session_start_datetime = today.replace(hour=last_session_start_hour, minute=last_session_start_minute, second=0, microsecond=0)
+        is_last_session_of_today = today > last_session_start_datetime
         weekly_average_data = weekly_average(daily_aggregated_data, today)
         report = generate_report(
             username,
@@ -220,6 +228,7 @@ class TelegramReports(Plugin):
             weekly_average_data,
             followers_now,
             following_now,
+            is_last_session_of_today,
         )
         response = telegram_bot_send_text(
             telegram_config.get("telegram-api-token"),
