@@ -129,27 +129,27 @@ def generate_report(
 ):
     if (not is_last_session_of_today):
         return f"""
-        *🤖 Last session actions*
-        • {last_session["duration"]} minutes of botting
-        • {last_session["total_likes"]} likes
-        • {last_session["total_watched"]} stories watched
+*🤖 Last session actions*
+• {last_session["duration"]} minutes of botting
+• {last_session["total_likes"]} likes
+• {last_session["total_watched"]} stories watched
         """
     return f"""
-    *🤖 Last session actions*
-    • {last_session["duration"]} minutes of botting
-    • {last_session["total_likes"]} likes
-    • {last_session["total_watched"]} stories watched
+*🤖 Last session actions*
+• {last_session["duration"]} minutes of botting
+• {last_session["total_likes"]} likes
+• {last_session["total_watched"]} stories watched
 
-    *📅 Today's total actions*
-    • {daily_aggregated_data["duration"]} minutes of botting
-    • accounts scraped: {daily_aggregated_data["total_scraped"]}
-    • {daily_aggregated_data["total_likes"]} likes
-    • {daily_aggregated_data["total_watched"]} stories watched
+*📅 Today's total actions*
+• {daily_aggregated_data["duration"]} minutes of botting
+• accounts scraped: {daily_aggregated_data["total_scraped"]}
+• {daily_aggregated_data["total_likes"]} likes
+• {daily_aggregated_data["total_watched"]} stories watched
 
-    *🗓 7-Day Average*
-    • {weekly_average_data["duration"] / 7:.0f} minutes of botting
-    • {weekly_average_data["total_likes"] / 7:.0f} likes
-    • {weekly_average_data["total_watched"] / 7:.0f} stories watched
+*🗓 7-Day Average*
+• {weekly_average_data["duration"] / 7:.0f} minutes of botting
+• {weekly_average_data["total_likes"] / 7:.0f} likes
+• {weekly_average_data["total_watched"] / 7:.0f} stories watched
     """
 
 
