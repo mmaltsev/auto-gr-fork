@@ -127,19 +127,7 @@ def generate_report(
     following_now,
     is_last_session_of_today,
 ):
-    if (not is_last_session_of_today):
-        return f"""
-*🤖 Last session actions*
-• {last_session["duration"]} minutes of botting
-• {last_session["total_likes"]} likes
-• {last_session["total_watched"]} stories watched
-        """
     return f"""
-*🤖 Last session actions*
-• {last_session["duration"]} minutes of botting
-• {last_session["total_likes"]} likes
-• {last_session["total_watched"]} stories watched
-
 *📅 Today's total actions*
 • {daily_aggregated_data["duration"]} minutes of botting
 • accounts scraped: {daily_aggregated_data["total_scraped"]}
@@ -221,25 +209,26 @@ class TelegramReports(Plugin):
         last_session_start_datetime = today.replace(hour=last_session_start_hour, minute=last_session_start_minute, second=0, microsecond=0)
         is_last_session_of_today = today > last_session_start_datetime
         weekly_average_data = weekly_average(daily_aggregated_data, today)
-        report = generate_report(
-            username,
-            last_session,
-            today_data,
-            weekly_average_data,
-            followers_now,
-            following_now,
-            is_last_session_of_today,
-        )
-        response = telegram_bot_send_text(
-            telegram_config.get("telegram-api-token"),
-            telegram_config.get("telegram-chat-id"),
-            report,
-        )
-        if response and response.get("ok"):
-            logger.info(
-                "Telegram message sent successfully.",
-                extra={"color": f"{Style.BRIGHT}{Fore.BLUE}"},
+        if (is_last_session_of_today):
+            report = generate_report(
+                username,
+                last_session,
+                today_data,
+                weekly_average_data,
+                followers_now,
+                following_now,
+                is_last_session_of_today,
             )
-        else:
-            error = response.get("description") if response else "Unknown error"
-            logger.error(f"Failed to send Telegram message: {error}")
+            response = telegram_bot_send_text(
+                telegram_config.get("telegram-api-token"),
+                telegram_config.get("telegram-chat-id"),
+                report,
+            )
+            if response and response.get("ok"):
+                logger.info(
+                    "Telegram message sent successfully.",
+                    extra={"color": f"{Style.BRIGHT}{Fore.BLUE}"},
+                )
+            else:
+                error = response.get("description") if response else "Unknown error"
+                logger.error(f"Failed to send Telegram message: {error}")
