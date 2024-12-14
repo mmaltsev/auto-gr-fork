@@ -126,7 +126,10 @@ def generate_report(
     followers_now,
     following_now,
     is_last_session_of_today,
+    is_crash_report,
 ):
+    if is_crash_report:
+        return "💔 the bot has just crashed. Need help!"
     return f"""
 *📅 Today's total actions*
 • {daily_aggregated_data["duration"]} minutes of botting
@@ -177,7 +180,6 @@ class TelegramReports(Plugin):
         ]
 
     def run(self, config, plugin, followers_now, following_now, time_left):
-        print('running telegram report')
         username = config.args.username
         working_hours = config.args.working_hours
         if username is None:
@@ -211,10 +213,8 @@ class TelegramReports(Plugin):
         is_last_session_of_today = today > last_session_start_datetime
         weekly_average_data = weekly_average(daily_aggregated_data, today)
         is_crash_report = False
-        print('data:', followers_now, following_now, time_left)
         if followers_now == 0 and following_now == 0 and time_left == 0:
             is_crash_report = True
-        print('is_crash_report', is_crash_report)
         if (is_last_session_of_today or is_crash_report):
             report = generate_report(
                 username,
@@ -224,6 +224,7 @@ class TelegramReports(Plugin):
                 followers_now,
                 following_now,
                 is_last_session_of_today,
+                is_crash_report,
             )
             response = telegram_bot_send_text(
                 telegram_config.get("telegram-api-token"),
