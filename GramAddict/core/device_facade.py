@@ -30,6 +30,7 @@ def get_device_info(device):
     try:
         print('Device info: ', device.get_info()['productName'])
     except:
+        print('get_device_info except')
         configs = Config(first_run=True)
         print_telegram_reports(
             configs,
@@ -38,6 +39,7 @@ def get_device_info(device):
             0,
             0,
         )
+        print('print_telegram_reports finished')
     logger.debug(
         f"Phone Name: {device.get_info()['productName']}, SDK Version: {device.get_info()['sdkInt']}"
     )
