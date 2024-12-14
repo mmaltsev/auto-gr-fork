@@ -177,6 +177,7 @@ class TelegramReports(Plugin):
         ]
 
     def run(self, config, plugin, followers_now, following_now, time_left):
+        print('running telegram report')
         username = config.args.username
         working_hours = config.args.working_hours
         if username is None:
@@ -209,7 +210,12 @@ class TelegramReports(Plugin):
         last_session_start_datetime = today.replace(hour=last_session_start_hour, minute=last_session_start_minute, second=0, microsecond=0)
         is_last_session_of_today = today > last_session_start_datetime
         weekly_average_data = weekly_average(daily_aggregated_data, today)
-        if (is_last_session_of_today):
+        is_crash_report = False
+        print('data:', followers_now, following_now, time_left)
+        if not followers_now and not following_now and time_left == 0:
+            is_crash_report = True
+        print('is_crash_report', is_crash_report)
+        if (is_last_session_of_today or is_crash_report):
             report = generate_report(
                 username,
                 last_session,
