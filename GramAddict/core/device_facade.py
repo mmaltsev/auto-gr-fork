@@ -34,7 +34,7 @@ def get_device_info(device):
         configs = Config(first_run=True)
         print_telegram_reports(
             configs,
-            False,
+            True,
             0,
             0,
             0,
