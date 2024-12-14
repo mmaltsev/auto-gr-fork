@@ -12,7 +12,8 @@ from typing import Optional
 
 import uiautomator2
 
-from GramAddict.core.utils import random_sleep
+from GramAddict.core.config import Config
+from GramAddict.core.utils import random_sleep, print_telegram_reports
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +27,17 @@ def create_device(device_id, app_id):
 
 
 def get_device_info(device):
+    try:
+        print('Device info: ', device.get_info()['productName'])
+    except:
+        configs = Config(first_run=True, **kwargs)
+        print_telegram_reports(
+            configs,
+            False,
+            None,
+            None,
+            0,
+        )
     logger.debug(
         f"Phone Name: {device.get_info()['productName']}, SDK Version: {device.get_info()['sdkInt']}"
     )
