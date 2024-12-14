@@ -212,7 +212,7 @@ class TelegramReports(Plugin):
         weekly_average_data = weekly_average(daily_aggregated_data, today)
         is_crash_report = False
         print('data:', followers_now, following_now, time_left)
-        if not followers_now and not following_now and time_left == 0:
+        if followers_now == 0 and following_now == 0 and time_left == 0:
             is_crash_report = True
         print('is_crash_report', is_crash_report)
         if (is_last_session_of_today or is_crash_report):
