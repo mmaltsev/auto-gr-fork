@@ -122,7 +122,16 @@ def start_bot(**kwargs):
         pre_post_script(path=configs.args.pre_script)
         if configs.args.restart_atx_agent:
             restart_atx_agent(device)
-        get_device_info(device)
+        try:
+            get_device_info(device)
+        except:
+            print_telegram_reports(
+                configs,
+                True,
+                0,
+                0,
+                0,
+            )
         session_state = SessionState(configs)
         session_state.set_limits_session()
         sessions.append(session_state)
