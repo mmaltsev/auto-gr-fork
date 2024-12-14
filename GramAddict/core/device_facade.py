@@ -30,7 +30,7 @@ def get_device_info(device):
     try:
         print('Device info: ', device.get_info()['productName'])
     except:
-        configs = Config(first_run=True, **kwargs)
+        configs = Config(first_run=True, None)
         print_telegram_reports(
             configs,
             False,
