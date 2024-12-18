@@ -150,10 +150,22 @@ def start_bot(**kwargs):
         if device.is_screen_locked():
             device.unlock()
             if device.is_screen_locked():
-                logger.error(
-                    "Can't unlock your screen. There may be a passcode on it. If you would like your screen to be turned on and unlocked automatically, please remove the passcode."
-                )
-                stop_bot(device, sessions, session_state, was_sleeping=False)
+                for i in range(5):
+                    device.unlock()
+                    if not device.is_screen_locked():
+                        break
+                if device.is_screen_locked():
+                    logger.error(
+                        "Can't unlock your screen. There may be a passcode on it. If you would like your screen to be turned on and unlocked automatically, please remove the passcode."
+                    )
+                    print_telegram_reports(
+                        configs,
+                        True,
+                        0,
+                        0,
+                        0,
+                    )
+                    stop_bot(device, sessions, session_state, was_sleeping=False)
 
         logger.info("Device screen ON and unlocked.")
         if open_instagram(device):
